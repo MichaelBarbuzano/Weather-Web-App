@@ -1,0 +1,7 @@
+<h1>{{ title }}</h1>
+
+<div *ngIf="weatherData">
+  <p>Temperature: {{ weatherData.temp }}°F</p>
+  <p>Condition: {{ weatherData.condition }}</p>
+</div>
+<p *ngIf="!weatherData">Loading weather data...</p>
