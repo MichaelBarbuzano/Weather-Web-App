@@ -3,6 +3,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cors = require('cors'); // Import cors middleware
+const dotenv = require('dotenv'); // Import dotenv
+
+dotenv.config(); // Load environment variables from .env file
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/mean-stack-app', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect('mongodb://localhost:27017/project1', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.get('/', (req, res) => {
   res.send('Weather App');
@@ -20,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.get('/weather', async (req, res) => {
   try {
-    const apiKey = 'e9d35c0de7261ef359b944c47c6ea1c7'; 
+    const apiKey = process.env.API_KEY; 
     const city = 'Charlotte'; // Replace with the actual city name
 
     const apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
