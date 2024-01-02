@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WeatherComponent } from './weather/weather.component';
-import { GeolocationService } from './geolocation.service';
+//import { GeolocationService } from './geolocation.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { GeolocationService } from './geolocation.service';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [GeolocationService],
+  //providers: [GeolocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,5 @@
+// geolocation.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -5,15 +7,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GeolocationService {
-  getlocation(): void {
-    // Your code to get the location and update userCity goes here
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
-      });
-    }else {
-      alert('Geolocation is not supported by this browser.');
-    }
+export class LocationService {
+  private backendUrl = 'http://localhost:3000/'; // Replace with your backend API URL
+
+  constructor(private http: HttpClient) {}
+
+  sendLocation(latitude: number, longitude: number): Observable<any> {
+    const url = `${this.backendUrl}api/send-location`;
+    const data = { latitude, longitude };
+
+    return this.http.post(url, data);
   }
 }
