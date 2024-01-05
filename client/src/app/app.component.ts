@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from './geolocation.service';
+import { WeatherService } from './weather.service';
 
 @Component({
   selector: 'app-root',
@@ -10,37 +10,36 @@ export class AppComponent {
   title = 'Weather App';
   latitude = 0  ;
   longitude = 0;
-  
+  weatherData: any = null; // Variable to store weather data
 
-  constructor(private locationService: LocationService) {}
+
+  constructor(private weatherService: WeatherService) {}
 
   getlocation(): void {
-    
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         console.log(position);
-        this.sendLocationToBackend();
-
+        this.getWeather();
       });
     }
   }
 
-  sendLocationToBackend(): void {
+  getWeather(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
 
-        this.locationService.sendLocation(this.latitude, this.longitude)
+        this.weatherService.getWeather(this.latitude, this.longitude)
           .subscribe(response => {
-            console.log('Location sent successfully', response);
+            console.log('Weather data received successfully', response);
+            this.weatherData = response; // Assign the response to the weatherData variable
           }, error => {
-            console.error('Error sending location', error);
+            console.error('Error fetching weather data', error);
           });
       });
     }
   }
 }
-

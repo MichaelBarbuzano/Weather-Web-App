@@ -1,5 +1,8 @@
-<app-weather></app-weather>
+
 <p>Your custom content goes here!</p>
 <button (click)="getlocation()">Get Location Please</button>
 
-
+<div *ngIf="weatherData">
+    <p>Temperature: {{ weatherData.temp }} f</p>
+    <p>Condition: {{ weatherData.condition }}</p>
+  </div>

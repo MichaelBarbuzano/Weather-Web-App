@@ -1,23 +1,23 @@
-import { NgModule } from '@angular/core';
+// app.module.ts
+
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http'; // Add this line
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WeatherComponent } from './weather/weather.component';
-//import { GeolocationService } from './geolocation.service';
+import { WeatherService } from './weather.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    WeatherComponent
+    AppComponent
   ],
   imports: [
-    HttpClientModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule // Add this line
   ],
-  //providers: [GeolocationService],
+  providers: [WeatherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

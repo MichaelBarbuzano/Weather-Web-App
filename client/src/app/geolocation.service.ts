@@ -8,14 +8,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LocationService {
-  private backendUrl = 'http://localhost:3000/'; // Replace with your backend API URL
+  private backendUrl = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) {}
 
+  // Updated sendLocation method to include latitude and longitude as parameters
   sendLocation(latitude: number, longitude: number): Observable<any> {
-    const url = `${this.backendUrl}api/send-location`;
-    const data = { latitude, longitude };
-
-    return this.http.post(url, data);
+    const url = `${this.backendUrl}weather?latitude=${latitude}&longitude=${longitude}`;
+    return this.http.get(url);
   }
 }
