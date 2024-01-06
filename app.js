@@ -50,14 +50,27 @@ app.get('/weather', async (req, res) => {
       return res.status(400).json({ error: 'Latitude and longitude not provided in the request.' });
     }
 
-    const apiUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`;
+    const apiUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`;
+
     const response = await axios.get(apiUrl);
 
-    const weatherData = {
-      temp: response.data.main.temp,
-      condition: response.data.weather[0].description,
-    };
-
+    const forecasts = response.data.list.filter((forecast) => {
+      // Assuming the API returns forecasts at 3-hour intervals
+      const forecastTimestamp = forecast.dt * 1000; // Convert seconds to milliseconds
+      const now = Date.now();
+      const next7Days = now + 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    
+      return forecastTimestamp > now && forecastTimestamp < next7Days;
+    });
+    
+    const weatherData = forecasts.map((forecast) => ({
+      date: new Date(forecast.dt * 1000), // Convert timestamp to Date object
+      temp: forecast.main.temp,
+      condition: forecast.weather[0].description,
+    }));
+    console.log(forecasts);
+    console.log(weatherData);
+    
     res.json(weatherData);
   } catch (error) {
     console.error('Error fetching weather data:', error.message);

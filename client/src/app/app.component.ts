@@ -10,9 +10,11 @@ export class AppComponent {
   title = 'Weather App';
   latitude = 0  ;
   longitude = 0;
-  weatherData: any = null; // Variable to store weather data
+  weatherData: any[] = []; // Variable to store weather data
 
-
+  ngOnInit() {
+    this.getlocation();
+  }
   constructor(private weatherService: WeatherService) {}
 
   getlocation(): void {

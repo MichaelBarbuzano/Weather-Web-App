@@ -2,7 +2,9 @@
 <p>Your custom content goes here!</p>
 <button (click)="getlocation()">Get Location Please</button>
 
-<div *ngIf="weatherData">
-    <p>Temperature: {{ weatherData.temp }} f</p>
-    <p>Condition: {{ weatherData.condition }}</p>
-  </div>
+<div *ngFor="let forecast of weatherData">
+  <p>Date: {{ forecast.date | date }}</p>
+  <p>Temperature: {{ forecast.temp }} °F</p>
+  <p>Condition: {{ forecast.condition }}</p>
+  <hr>
+</div>
