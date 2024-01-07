@@ -33,9 +33,6 @@ app.use(session({
 app.use(express.json()); // Parse JSON bodies
 
 
-
-
-
 app.get('/', (req, res) => {
   res.send('Weather App');
 });
@@ -54,13 +51,17 @@ app.get('/weather', async (req, res) => {
 
     const response = await axios.get(apiUrl);
 
-    const forecasts = response.data.list.filter((forecast) => {
-      // Assuming the API returns forecasts at 3-hour intervals
+    const forecasts = response.data.list.filter((forecast, index, array) => {
       const forecastTimestamp = forecast.dt * 1000; // Convert seconds to milliseconds
       const now = Date.now();
       const next7Days = now + 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
     
-      return forecastTimestamp > now && forecastTimestamp < next7Days;
+      // Check if the forecast is at 12-hour intervals (every 4th entry in the array)
+      return (
+        forecastTimestamp > now &&
+        forecastTimestamp < next7Days &&
+        index % 4 === 0
+      );
     });
     
     const weatherData = forecasts.map((forecast) => ({
@@ -75,6 +76,31 @@ app.get('/weather', async (req, res) => {
   } catch (error) {
     console.error('Error fetching weather data:', error.message);
     res.status(500).send('Internal Server Error');
+  }
+});
+app.get('/currentWeather', async (req, res) => {
+  try {
+    const apiKey = process.env.API_KEY;
+    const { latitude, longitude } = req.query; // Retrieve latitude and longitude from the request query parameters
+    console.log('Testing variables', { latitude, longitude });
+
+    if (!latitude || !longitude) {
+      return res.status(400).json({ error: 'Latitude and longitude not provided in the request.' });
+    }
+
+    const apiUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`;
+    const response = await axios.get(apiUrl);
+
+    const currentWeather = {
+      temp: response.data.main.temp,
+      condition: response.data.weather[0].description,
+    };
+    console.log(currentWeather);
+
+    res.json(currentWeather);
+  } catch (error) {
+    console.error('Error fetching weather data:2', error.message);
+    res.status(500).send('Internal Server Error2');
   }
 });
 

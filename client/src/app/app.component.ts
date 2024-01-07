@@ -11,6 +11,7 @@ export class AppComponent {
   latitude = 0  ;
   longitude = 0;
   weatherData: any[] = []; // Variable to store weather data
+  currentWeather: any = null;
 
   ngOnInit() {
     this.getlocation();
@@ -23,6 +24,7 @@ export class AppComponent {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         console.log(position);
+        this.getCurrentWeather();
         this.getWeather();
       });
     }
@@ -38,6 +40,22 @@ export class AppComponent {
           .subscribe(response => {
             console.log('Weather data received successfully', response);
             this.weatherData = response; // Assign the response to the weatherData variable
+          }, error => {
+            console.error('Error fetching weather data', error);
+          });
+      });
+    }
+  }
+  getCurrentWeather(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+
+        this.weatherService.getCurrentWeather(this.latitude, this.longitude)
+          .subscribe(response => {
+            console.log('Weather data received successfully', response);
+            this.currentWeather = response; // Assign the response to the weatherData variable
           }, error => {
             console.error('Error fetching weather data', error);
           });

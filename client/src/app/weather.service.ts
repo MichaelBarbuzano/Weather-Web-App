@@ -18,4 +18,11 @@ export class WeatherService {
 
     return this.http.get(url, { params });
   }
+  getCurrentWeather(latitude: number, longitude: number): Observable<any> {
+    const url = `${this.backendUrl}currentWeather`;
+    const params = new HttpParams().set('latitude', latitude.toString()).set('longitude', longitude.toString());
+
+    return this.http.get(url, { params });
+  }
+  
 }
