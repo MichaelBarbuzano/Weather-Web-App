@@ -62,4 +62,30 @@ export class AppComponent {
       });
     }
   }
+
+  conditionToImage: { [key: string]: string } = {
+    'sunny': 'assets/image/sunny.jpg',
+    'rainy': 'assets/images/rainy.jpg',
+    'cloudy': 'assets/images/cloudy.jpg',
+    'few clouds': 'assets/images/cloudy.jpg',
+    // ... add other conditions
+  };
+
+  getWeatherImage(condition: string): string {
+    const lowerCaseCondition = condition.toLowerCase();
+
+    // Check if the condition contains certain words and map them to the same image
+  if (lowerCaseCondition.includes('clouds')) {
+    return this.conditionToImage['cloudy'];
+  }
+  if (lowerCaseCondition.includes('rain')) {
+    return this.conditionToImage['rainy'];
+  }
+  if (lowerCaseCondition.includes('sunny')) {
+    return this.conditionToImage['sunny'];
+  }
+
+    return this.conditionToImage[condition.toLowerCase()] || 'assets/images/default-image.jpg';
+  }
+
 }

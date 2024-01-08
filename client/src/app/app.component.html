@@ -1,16 +1,31 @@
 
-<p>Your custom content goes here!</p>
-<button (click)="getlocation()">Get Location Please</button>
 
-<div *ngIf="currentWeather">
-  <p>Current Temperature: {{ currentWeather.temp }}°F</p>
-  <p>Current Condition: {{ currentWeather.condition }}</p>
-  <hr>
+
+<div class = "weather-section" *ngIf="currentWeather">
+  <img [src]="getWeatherImage(currentWeather.condition)" alt="Weather Image">
+  <p>Temp: {{ currentWeather.temp }}°</p>
+  <p>Condition: {{ currentWeather.condition }}</p>
 </div>
 
-<div *ngFor="let forecast of weatherData">
-  <p>Date: {{ forecast.date | date }}</p>
-  <p>Temperature: {{ forecast.temp }} °F</p>
-  <p>Condition: {{ forecast.condition }}</p>
-  <hr>
+<div class="container">
+<section class = "forecast-section">
+<div class = "forecast-card" *ngFor="let forecast of weatherData">
+  <img [src]="getWeatherImage(forecast.condition)" alt="Weather Image">
+  <div>{{ forecast.date | date:'EEEE' }} </div>
+  <div>High: {{ forecast.highTemp }}°</div>
+  <div>Low: {{ forecast.lowTemp }}°</div>
+  <div>{{ forecast.condition }}</div>
 </div>
+</section>
+</div>
+  
+<section class = "forecast-section2">
+  <div class = "forecast-card2" *ngFor="let forecast of weatherData">
+    <img [src]="getWeatherImage(forecast.condition)" alt="Weather Image">
+    <div>{{ forecast.date | date:'EEEE' }} </div>
+    <div>High Temp: {{ forecast.highTemp }} °F</div>
+    <div>Low Temp: {{ forecast.lowTemp }} °F</div>
+    <div>Condition: {{ forecast.condition }}</div>
+  
+  </div>
+  </section>

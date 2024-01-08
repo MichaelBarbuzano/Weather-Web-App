@@ -59,16 +59,42 @@ app.get('/weather', async (req, res) => {
       // Check if the forecast is at 12-hour intervals (every 4th entry in the array)
       return (
         forecastTimestamp > now &&
-        forecastTimestamp < next7Days &&
-        index % 4 === 0
+        forecastTimestamp < next7Days
       );
     });
     
-    const weatherData = forecasts.map((forecast) => ({
-      date: new Date(forecast.dt * 1000), // Convert timestamp to Date object
-      temp: forecast.main.temp,
-      condition: forecast.weather[0].description,
-    }));
+    const weatherData = [];
+    let currentWeatherData = null;
+    
+    forecasts.forEach((forecast, index, array) => {
+      const dateTime = new Date(forecast.dt_txt);
+      const hour = dateTime.getHours();
+      const date = dateTime.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    
+      if (!currentWeatherData || currentWeatherData.date !== date) {
+        // If there is no currentWeatherData or the date is different, create a new object
+        currentWeatherData = {
+          dateTime: forecast.dt_txt,
+          date: date,
+          hour: hour,
+          highTemp: forecast.main.temp,
+          lowTemp: forecast.main.temp,
+          condition: forecast.weather[0].description,
+        };
+        weatherData.push(currentWeatherData);
+      } else {
+        // If the date is the same, check for high temp
+        if (forecast.main.temp > currentWeatherData.highTemp) {
+          currentWeatherData.highTemp = forecast.main.temp;
+          currentWeatherData.dateTime = forecast.dt_txt;
+        }
+        if(forecast.main.temp < currentWeatherData.lowTemp){
+          currentWeatherData.lowTemp = forecast.main.temp;
+  
+        }
+      }
+    });
+
     console.log(forecasts);
     console.log(weatherData);
     
