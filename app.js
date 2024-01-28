@@ -1,7 +1,7 @@
 
 const express = require('express');
 const session = require('express-session');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const axios = require('axios');
 const cors = require('cors'); // Import cors middleware
 const dotenv = require('dotenv'); // Import dotenv
