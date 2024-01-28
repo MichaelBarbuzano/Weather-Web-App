@@ -1,2 +1,2 @@
-# Project1
-Learning how to implement data scraping
+# WeatherApp
+Creating a basic weather web application
