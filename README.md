@@ -4,5 +4,5 @@ This web application uses Node 20.9.0, Express, Angular, OpenWeatherMap API, and
 
 
 
-Here is a screenshot of the simple web application:
+Here is a screenshot of the simple web application displaying a 7 day weather report based on my location:
 ![WeatherAPpScreenshot](https://github.com/MichaelBarbuzano/Weather-Web-App/assets/148410804/4c7f3f22-85b0-47d9-a86b-672c658be897)
