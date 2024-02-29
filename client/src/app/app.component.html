@@ -1,31 +1,11 @@
 
-
-
 <div class = "weather-section" *ngIf="currentWeather">
-  <img [src]="getWeatherImage(currentWeather.condition)" alt="Weather Image">
-  <p>Temp: {{ currentWeather.temp }}°</p>
-  <p>Condition: {{ currentWeather.condition }}</p>
+  <img [src]="getWeatherImage(currentWeather.weather[0].description)" alt="Weather Image">
+  <p>Temp: {{ currentWeather.main.temp }}°</p>
+  <p>Condition: {{ currentWeather.weather[0].description }}</p>
 </div>
 
-<div class="container">
-<section class = "forecast-section">
-<div class = "forecast-card" *ngFor="let forecast of weatherData">
-  <img [src]="getWeatherImage(forecast.condition)" alt="Weather Image">
-  <div>{{ forecast.date | date:'EEEE' }} </div>
-  <div>High: {{ forecast.highTemp }}°</div>
-  <div>Low: {{ forecast.lowTemp }}°</div>
-  <div>{{ forecast.condition }}</div>
-</div>
-</section>
-</div>
-  
-<section class = "forecast-section2">
-  <div class = "forecast-card2" *ngFor="let forecast of weatherData">
-    <img [src]="getWeatherImage(forecast.condition)" alt="Weather Image">
-    <div>{{ forecast.date | date:'EEEE' }} </div>
-    <div>High Temp: {{ forecast.highTemp }} °F</div>
-    <div>Low Temp: {{ forecast.lowTemp }} °F</div>
-    <div>Condition: {{ forecast.condition }}</div>
-  
-  </div>
-  </section>
+
+
+
+

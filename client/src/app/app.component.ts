@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { WeatherService } from './weather.service';
 
 @Component({
@@ -10,13 +10,15 @@ export class AppComponent {
   title = 'Weather App';
   latitude = 0  ;
   longitude = 0;
+  temperature: number | undefined;
   weatherData: any = null;//any[] = []; // Variable to store weather data
   currentWeather: any = null;
 
   ngOnInit() {
     this.getlocation();
   }
-  constructor(private weatherService: WeatherService) {}
+
+  constructor(private weatherService: WeatherService, private cdr: ChangeDetectorRef) {}
 
   getlocation(): void {
     if (navigator.geolocation) {
@@ -24,27 +26,26 @@ export class AppComponent {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         console.log(position);
+        console.log("Coordiantes ", position.coords.latitude, position.coords.longitude)
         this.getCurrentWeather();
-        this.getWeather();
+        //this.getWeather();
       });
     }
   }
-
-  getWeather(): void {
-    this.weatherService.getWeather(this.latitude, this.longitude)
-      .subscribe(response => {
-        console.log('Weather data received successfully', response);
-        this.weatherData = response; // Assign the response to the weatherData variable
-      }, error => {
-        console.error('Error fetching weather data', error);
-      });
-  }
-
   getCurrentWeather(): void {
     this.weatherService.getCurrentWeather(this.latitude, this.longitude)
       .subscribe(response => {
         console.log('Current weather data received successfully', response);
-        this.currentWeather = response; // Assign the response to the currentWeather variable
+
+        this.currentWeather = response;
+        console.log(this.currentWeather.main.temp);
+        console.log(this.currentWeather.weather[0].description);
+        const condition = this.currentWeather.weather[0].description;
+        console.log("Condition = ", condition);
+
+        //this.cdr.detectChanges();
+
+        //this.currentWeather = response; // Assign the response to the currentWeather variable
       }, error => {
         console.error('Error fetching current weather data', error);
       });
