@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'Weather App';
   latitude = 0  ;
   longitude = 0;
-  weatherData: any[] = []; // Variable to store weather data
+  weatherData: any = null;//any[] = []; // Variable to store weather data
   currentWeather: any = null;
 
   ngOnInit() {
@@ -31,36 +31,23 @@ export class AppComponent {
   }
 
   getWeather(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-
-        this.weatherService.getWeather(this.latitude, this.longitude)
-          .subscribe(response => {
-            console.log('Weather data received successfully', response);
-            this.weatherData = response; // Assign the response to the weatherData variable
-          }, error => {
-            console.error('Error fetching weather data', error);
-          });
+    this.weatherService.getWeather(this.latitude, this.longitude)
+      .subscribe(response => {
+        console.log('Weather data received successfully', response);
+        this.weatherData = response; // Assign the response to the weatherData variable
+      }, error => {
+        console.error('Error fetching weather data', error);
       });
-    }
   }
-  getCurrentWeather(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
 
-        this.weatherService.getCurrentWeather(this.latitude, this.longitude)
-          .subscribe(response => {
-            console.log('Weather data received successfully', response);
-            this.currentWeather = response; // Assign the response to the weatherData variable
-          }, error => {
-            console.error('Error fetching weather data', error);
-          });
+  getCurrentWeather(): void {
+    this.weatherService.getCurrentWeather(this.latitude, this.longitude)
+      .subscribe(response => {
+        console.log('Current weather data received successfully', response);
+        this.currentWeather = response; // Assign the response to the currentWeather variable
+      }, error => {
+        console.error('Error fetching current weather data', error);
       });
-    }
   }
 
   conditionToImage: { [key: string]: string } = {
