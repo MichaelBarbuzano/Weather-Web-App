@@ -1,7 +1,6 @@
 <h1>{{ title }}</h1>
 
 <div *ngIf="weatherData">
-  <img [src]="getWeatherImage(currentWeather.weather[0].description)" alt="Weather Image">
   <p>Temperature: {{ weatherData.temp }}°F</p>
   <p>Condition: {{ weatherData.condition }}</p>
 </div>
