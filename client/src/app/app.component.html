@@ -1,8 +1,26 @@
 
 <div class = "weather-section" *ngIf="currentWeather">
+  <h2> {{ getCurrentDate() }} </h2>
   <img [src]="getWeatherImage(currentWeather.weather[0].description)" alt="Weather Image">
   <p>Temp: {{ currentWeather.main.temp }}°</p>
   <p>Condition: {{ currentWeather.weather[0].description }}</p>
+</div>
+
+<div class="container">
+<section class = "forecast-section">
+<div class = "forecast-card" *ngFor="let group of groupedForecast">
+  <h1>{{ group.date }}</h1>
+  <ul>
+      <!-- Display forecast information for each item -->
+      <img [src]="getWeatherImage(group.avgCondition)" alt="Weather Image">
+      
+      <div>High Temp: {{ group.maxTemp }}°</div>
+      <div>Low Temp: {{ group.minTemp }}°</div>
+      <div> {{ group.avgCondition }}</div>
+
+  </ul>
+</div>
+</section>
 </div>
 
 
