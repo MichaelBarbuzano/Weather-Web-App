@@ -71,7 +71,7 @@ export class AppComponent {
 
   conditionToImage: { [key: string]: string } = {
     
-    'sunny': 'assets/image/sunny.png',
+    'sunny': 'assets/images/sunny.png',
     'rainy': 'assets/images/rainy.png',
     'cloudy': 'assets/images/cloudy.png',
     'few clouds': 'assets/images/cloudy.png',
@@ -90,7 +90,7 @@ export class AppComponent {
   if (lowerCaseCondition.includes('rain')) {
     return this.conditionToImage['rainy'];
   }
-  if (lowerCaseCondition.includes('sunny') || lowerCaseCondition.includes('sun')) {
+  if (lowerCaseCondition.includes('sunny') || lowerCaseCondition.includes('sun') || lowerCaseCondition.includes('clear sky')) {
     return this.conditionToImage['sunny'];
   }
   if (lowerCaseCondition.includes('snow') || lowerCaseCondition.includes('hail')) {
@@ -132,8 +132,12 @@ export class AppComponent {
 
         const conditionCounter: { [key: string]: number } = {};
         forecastData.forEach(item => {
+          // Convert the timestamp to a Date object
+          const dateObj = new Date(item.dt * 1000);
+          if (dateObj.getHours() >= 10 && dateObj.getHours() <= 17) {
           const condition = item.weather[0].description;
           conditionCounter[condition] = (conditionCounter[condition] || 0) + 1;
+          }
         });
         let avgCondition = "";
         let maxCount = 0;
